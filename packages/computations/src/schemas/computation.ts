@@ -1,4 +1,4 @@
-import { InferRawDocType, Schema } from "mongoose";
+import { InferRawDocType, Schema, SchemaDefinition } from "mongoose";
 import { mongoConnection } from "@repo/mongo/connection";
 
 export const COMPUTATION_OPERATION: readonly [
@@ -8,7 +8,7 @@ export const COMPUTATION_OPERATION: readonly [
   "divide",
 ] = ["add", "subtract", "multiply", "divide"];
 
-const schemaDefinition = {
+const schemaDefinition: SchemaDefinition = {
   operation: {
     type: String,
     enum: COMPUTATION_OPERATION,
@@ -27,8 +27,15 @@ const schemaDefinition = {
   },
 };
 
-export type ComputationDocument = InferRawDocType<typeof schemaDefinition>;
+export type ComputationDocument = InferRawDocType<
+  typeof schemaDefinition,
+  {
+    timestamps: true;
+  }
+>;
 
-const schema = new Schema(schemaDefinition);
+const schema = new Schema(schemaDefinition, {
+  timestamps: true,
+});
 
 export const computationModel = mongoConnection.model("Computation", schema);
