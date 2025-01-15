@@ -1,0 +1,11 @@
+pre-commit:
+  parallel: true
+  commands:
+    check-types:
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx}"
+      run: pnpm check-types
+    lint:
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      run: |
+        pnpm lint -- --fix
+      stage_fixed: true

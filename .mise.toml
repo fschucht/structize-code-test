@@ -1,0 +1,10 @@
+[tools]
+node = "23.6.0"
+pnpm = "10.0.0"
+lefthook = "1.10.5"
+
+[hooks]
+postinstall = 'lefthook install'
+
+[settings]
+experimental = true
