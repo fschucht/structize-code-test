@@ -1,16 +1,16 @@
 import { initTRPC } from "@trpc/server";
 import {
-  createComputation,
-  createComputationParamsSchema,
-} from "@repo/computations/services/computations";
+  createCalculation,
+  createCalculationParamsSchema,
+} from "@repo/calculations/services/calculations";
 
 const trpc = initTRPC.create();
 
 export const apiRouter = trpc.router({
-  createComputation: trpc.procedure
-    .input(createComputationParamsSchema)
+  createCalculation: trpc.procedure
+    .input(createCalculationParamsSchema)
     .mutation(async ({ input }) => {
-      await createComputation(input);
+      await createCalculation(input);
     }),
 });
 

@@ -1,13 +1,13 @@
 import * as React from "react";
 import { cn } from "@repo/ui/lib/utils";
 
-export interface ComputationProps {
+export interface CalculationProps {
   className?: string;
   operator: "+" | "-" | "*" | "/";
   result?: number;
 }
 
-const Computation = React.forwardRef<HTMLInputElement, ComputationProps>(
+const Calculation = React.forwardRef<HTMLInputElement, CalculationProps>(
   ({ className, operator, result }, ref) => {
     return (
       <div
@@ -25,6 +25,6 @@ const Computation = React.forwardRef<HTMLInputElement, ComputationProps>(
     );
   },
 );
-Computation.displayName = "Computation";
+Calculation.displayName = "Calculation";
 
-export { Computation };
+export { Calculation };

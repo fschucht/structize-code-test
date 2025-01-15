@@ -11,7 +11,7 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@repo/computations": "workspace:*",
+    "@repo/calculations": "workspace:*",
     "@repo/ui": "workspace:*",
     "@tanstack/react-query": "5.64.1",
     "@trpc/client": "11.0.0-rc.700",

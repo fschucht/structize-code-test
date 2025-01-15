@@ -10,7 +10,7 @@ import {
 import { Button } from "@repo/ui/components/button";
 import { Input } from "@repo/ui/components/input";
 import { Progress } from "@repo/ui/components/progress";
-import { Computation } from "@/components/computation";
+import { Calculation } from "@/components/calculation";
 import { trpc } from "@/trpc/client";
 
 export default function Home() {
@@ -26,7 +26,7 @@ export default function Home() {
     return !hasNumberBBeenChanged || typeof numberB === "number";
   }, [hasNumberBBeenChanged, numberB]);
 
-  const { mutate: createComputation } = trpc.createComputation.useMutation();
+  const { mutate: createCalculation } = trpc.createCalculation.useMutation();
 
   const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>(
     (event) => {
@@ -39,13 +39,13 @@ export default function Home() {
         return;
       }
 
-      createComputation({
+      createCalculation({
         operation: "add",
         numberA: numberA,
         numberB: numberB,
       });
     },
-    [numberA, numberB, createComputation],
+    [numberA, numberB, createCalculation],
   );
 
   const handleChangeNumberA = useCallback<ChangeEventHandler<HTMLInputElement>>(
@@ -93,10 +93,10 @@ export default function Home() {
           <Progress className="mt-2" value={50} />
         </div>
         <div className="flex flex-col min-w-[300px] mt-10 gap-4">
-          <Computation operator="+" />
-          <Computation operator="-" />
-          <Computation operator="*" />
-          <Computation operator="/" />
+          <Calculation operator="+" />
+          <Calculation operator="-" />
+          <Calculation operator="*" />
+          <Calculation operator="/" />
         </div>
       </main>
     </div>
