@@ -26,7 +26,13 @@ export default function Home() {
     return !hasNumberBBeenChanged || typeof numberB === "number";
   }, [hasNumberBBeenChanged, numberB]);
 
-  const { mutate: createCalculation } = trpc.createCalculation.useMutation();
+  const { mutate: createAddCalculation } = trpc.createCalculation.useMutation();
+  const { mutate: createSubtractCalculation } =
+    trpc.createCalculation.useMutation();
+  const { mutate: createMultiplyCalculation } =
+    trpc.createCalculation.useMutation();
+  const { mutate: createDivideCalculation } =
+    trpc.createCalculation.useMutation();
 
   const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>(
     (event) => {
@@ -39,13 +45,35 @@ export default function Home() {
         return;
       }
 
-      createCalculation({
+      createAddCalculation({
         operation: "add",
         numberA: numberA,
         numberB: numberB,
       });
+      createSubtractCalculation({
+        operation: "subtract",
+        numberA: numberA,
+        numberB: numberB,
+      });
+      createMultiplyCalculation({
+        operation: "multiply",
+        numberA: numberA,
+        numberB: numberB,
+      });
+      createDivideCalculation({
+        operation: "divide",
+        numberA: numberA,
+        numberB: numberB,
+      });
     },
-    [numberA, numberB, createCalculation],
+    [
+      numberA,
+      numberB,
+      createAddCalculation,
+      createSubtractCalculation,
+      createMultiplyCalculation,
+      createDivideCalculation,
+    ],
   );
 
   const handleChangeNumberA = useCallback<ChangeEventHandler<HTMLInputElement>>(
