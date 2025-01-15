@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "node --watch main.ts",
-    "lint": "next lint --max-warnings 0",
+    "lint": "eslint . --max-warnings 0",
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
