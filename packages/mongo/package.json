@@ -1,0 +1,20 @@
+{
+  "name": "@repo/mongo",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./connection": "./src/connection.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "generate:component": "turbo gen react-component",
+    "check-types": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "22.10.6",
+    "typescript": "5.7.3"
+  }
+}

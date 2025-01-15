@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  mongo:
+    container_name: mongo
+    image: mongo:8.0.4
+    command: []
+    restart: always
+    volumes:
+      - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/mongo:/data/db
+    ports:
+      - 27017:27017
+    networks:
+      - web-network
+
+networks:
+  web-network:

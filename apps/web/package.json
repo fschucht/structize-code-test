@@ -11,12 +11,14 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
+    "@repo/computations": "workspace:*",
     "@repo/ui": "workspace:*",
     "@tanstack/react-query": "5.64.1",
     "@trpc/client": "11.0.0-rc.700",
     "@trpc/react-query": "11.0.0-rc.700",
     "@trpc/server": "11.0.0-rc.700",
     "client-only": "0.0.1",
+    "mongoose": "8.9.5",
     "next": "15.1.4",
     "react": "19.0.0",
     "react-dom": "19.0.0",

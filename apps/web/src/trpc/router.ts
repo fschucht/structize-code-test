@@ -1,19 +1,16 @@
 import { initTRPC } from "@trpc/server";
-import { z } from "zod";
+import {
+  createComputation,
+  createComputationParamsSchema,
+} from "@repo/computations/services/computations";
 
 const trpc = initTRPC.create();
 
 export const apiRouter = trpc.router({
   createComputation: trpc.procedure
-    .input(
-      z.object({
-        operation: z.enum(["add", "subtract", "multiply", "divide"]),
-        numberA: z.number(),
-        numberB: z.number(),
-      }),
-    )
+    .input(createComputationParamsSchema)
     .mutation(async ({ input }) => {
-      console.log(input);
+      await createComputation(input);
     }),
 });
 
