@@ -1,7 +1,3 @@
 import { Job } from "bullmq";
 
-export type ComputeCalculationJob = Job<
-  { calculationId: string },
-  void,
-  "compute"
->;
+export type ComputeCalculationJob = { calculationId: string };

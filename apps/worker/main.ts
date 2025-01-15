@@ -6,7 +6,7 @@ import type { ComputeCalculationJob } from "@repo/calculations/jobs/computeCalcu
 import { computeCalculation } from "@repo/calculations/services/calculations";
 
 const worker = new Worker<ComputeCalculationJob>(CALCULATIONS_QUEUE_NAME, async (job) => {
-  await computeCalculation(ObjectId.createFromHexString(job.data.data.calculationId))
+  await computeCalculation(ObjectId.createFromHexString(job.data.calculationId))
 }, {
   connection: redisConnection,
   // For demonstration purposes, the concurrency is set to 2 here.
