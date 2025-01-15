@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
-    "./services/*": "./src/services/*.ts"
+    "./services/*": "./src/services/*.ts",
+    "./jobs/*": "./src/jobs/*.ts",
+    "./constants": "./src/constants.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
@@ -11,6 +13,9 @@
   },
   "dependencies": {
     "@repo/mongo": "workspace:*",
+    "@repo/redis": "workspace:*",
+    "bullmq": "5.34.10",
+    "mongodb": "6.12.0",
     "mongoose": "8.9.5",
     "zod": "3.24.1"
   },

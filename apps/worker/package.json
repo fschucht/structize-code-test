@@ -1,22 +1,26 @@
 {
-  "name": "@repo/mongo",
+  "name": "worker",
   "version": "0.0.0",
-  "private": true,
   "type": "module",
-  "exports": {
-    "./connection": "./src/connection.ts"
-  },
+  "private": true,
   "scripts": {
-    "lint": "eslint . --max-warnings 0",
+    "dev": "node --watch main.ts",
+    "lint": "next lint --max-warnings 0",
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
+    "@repo/calculations": "workspace:*",
+    "@repo/redis": "workspace:*",
+    "bullmq": "5.34.10",
+    "mongodb": "6.12.0",
     "mongoose": "8.9.5"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "3.2.0",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/node": "22.10.6",
+    "eslint": "9.18.0",
     "typescript": "5.7.3"
   }
 }

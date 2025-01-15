@@ -1,4 +1,4 @@
-import { InferRawDocType, Schema, SchemaDefinition } from "mongoose";
+import { type InferRawDocType, Schema, SchemaDefinition } from "mongoose";
 import { mongoConnection } from "@repo/mongo/connection";
 
 export const CALCULATION_OPERATION = [
@@ -8,24 +8,25 @@ export const CALCULATION_OPERATION = [
   "divide",
 ] as const;
 
-const schemaDefinition: SchemaDefinition = {
+const schemaDefinition = {
   operation: {
     type: String,
     enum: CALCULATION_OPERATION,
-    isRequired: true,
+    required: true,
   },
   numberA: {
     type: Number,
-    isRequired: true,
+    required: true,
   },
   numberB: {
     type: Number,
-    isRequired: true,
+    required: true,
   },
   result: {
     type: Number,
+    required: false,
   },
-};
+} satisfies SchemaDefinition;
 
 export type CalculationDocument = InferRawDocType<
   typeof schemaDefinition,

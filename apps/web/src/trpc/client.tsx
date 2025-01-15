@@ -11,7 +11,7 @@ import { z } from "zod";
 import { isServer } from "@repo/ui/lib/utils";
 
 const configSchema = z.object({
-  TRPC_ENDPOINT_URL: z
+  TRPC_ENDPOINT_URL: z.coerce
     .string()
     .url()
     .endsWith("/api")

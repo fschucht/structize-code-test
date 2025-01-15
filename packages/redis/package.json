@@ -1,5 +1,5 @@
 {
-  "name": "@repo/mongo",
+  "name": "@repo/redis",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -11,7 +11,7 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "mongoose": "8.9.5"
+    "ioredis": "5.4.2"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
