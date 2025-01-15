@@ -6,7 +6,7 @@ import { httpBatchLink } from "@trpc/client";
 import { createTRPCReact } from "@trpc/react-query";
 import { useState } from "react";
 import { makeQueryClient } from "./queryClient";
-import { ApiRouter } from "./router";
+import type { ApiRouter } from "./router";
 import { z } from "zod";
 import { isServer } from "@repo/ui/lib/utils";
 

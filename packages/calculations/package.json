@@ -2,6 +2,7 @@
   "name": "@repo/calculations",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "exports": {
     "./services/*": "./src/services/*.ts",
     "./jobs/*": "./src/jobs/*.ts",

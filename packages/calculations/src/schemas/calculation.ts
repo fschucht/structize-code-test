@@ -1,4 +1,4 @@
-import { type InferRawDocType, Schema, SchemaDefinition } from "mongoose";
+import { type InferRawDocType, Schema, type SchemaDefinition } from "mongoose";
 import { mongoConnection } from "@repo/mongo/connection";
 
 export const CALCULATION_OPERATION = [

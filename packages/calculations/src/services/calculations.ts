@@ -2,10 +2,10 @@ import z from "zod";
 import type { ObjectId } from "mongodb";
 import {
   CALCULATION_OPERATION,
-  CalculationDocument,
+  type CalculationDocument,
   calculationModel,
-} from "../schemas/calculation";
-import { calculationsQueue } from "../queues/calculations";
+} from "../schemas/calculation.ts";
+import { calculationsQueue } from "../queues/calculations.ts";
 
 export const createCalculationParamsSchema = z.object({
   operation: z.enum(CALCULATION_OPERATION),

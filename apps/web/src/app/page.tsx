@@ -1,8 +1,8 @@
 "use client";
 
 import {
-  ChangeEventHandler,
-  FormEventHandler,
+  type ChangeEventHandler,
+  type FormEventHandler,
   useCallback,
   useMemo,
   useState,

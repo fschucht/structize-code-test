@@ -1,6 +1,7 @@
 {
   "name": "structize-code-test",
   "private": true,
+  "type": "module",
   "engines": {
     "node": "23.6.0"
   },
