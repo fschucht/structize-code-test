@@ -3,9 +3,8 @@ pre-commit:
   commands:
     check-types:
       glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx}"
-      run: pnpm check-types
+      run: pnpm run check-types
     lint:
       glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
-      run: |
-        pnpm lint -- --fix
+      run: pnpm run lint -- --fix
       stage_fixed: true
