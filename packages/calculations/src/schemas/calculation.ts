@@ -1,5 +1,5 @@
-import { type InferRawDocType, Schema, type SchemaDefinition } from "mongoose";
-import { mongoConnection } from "@repo/mongo/connection";
+import { Schema } from "mongoose";
+import type { DocumentWithTimestamps } from "@repo/mongo/document";
 
 export const CALCULATION_OPERATION = [
   "add",
@@ -8,35 +8,34 @@ export const CALCULATION_OPERATION = [
   "divide",
 ] as const;
 
-const schemaDefinition = {
-  operation: {
-    type: String,
-    enum: CALCULATION_OPERATION,
-    required: true,
-  },
-  numberA: {
-    type: Number,
-    required: true,
-  },
-  numberB: {
-    type: Number,
-    required: true,
-  },
-  result: {
-    type: Number,
-    required: false,
-  },
-} satisfies SchemaDefinition;
+export interface CalculationDocument extends DocumentWithTimestamps {
+  operation: "add" | "subtract" | "multiply" | "divide";
+  numberA: number;
+  numberB: number;
+  result?: number;
+}
 
-export type CalculationDocument = InferRawDocType<
-  typeof schemaDefinition,
+export const calculationSchema = new Schema<CalculationDocument>(
   {
-    timestamps: true;
-  }
->;
-
-const schema = new Schema(schemaDefinition, {
-  timestamps: true,
-});
-
-export const calculationModel = mongoConnection.model("Calculation", schema);
+    operation: {
+      type: String,
+      enum: CALCULATION_OPERATION,
+      required: true,
+    },
+    numberA: {
+      type: Number,
+      required: true,
+    },
+    numberB: {
+      type: Number,
+      required: true,
+    },
+    result: {
+      type: Number,
+      required: false,
+    },
+  },
+  {
+    timestamps: true,
+  },
+);

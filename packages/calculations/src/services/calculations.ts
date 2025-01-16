@@ -3,9 +3,9 @@ import type { ObjectId } from "mongodb";
 import {
   CALCULATION_OPERATION,
   type CalculationDocument,
-  calculationModel,
 } from "../schemas/calculation.ts";
 import { calculationsQueue } from "../queues/calculations.ts";
+import { calculationModel } from "../models/calculation.ts";
 
 export const createCalculationParamsSchema = z.object({
   operation: z.enum(CALCULATION_OPERATION),
@@ -27,6 +27,18 @@ export async function createCalculation(
   });
 
   return createdCalculation;
+}
+
+export async function findCalculationById(
+  calculationId: ObjectId,
+): Promise<CalculationDocument> {
+  const calculation = await calculationModel.findById(calculationId);
+
+  if (!calculation) {
+    throw new Error("Calculation not found");
+  }
+
+  return calculation;
 }
 
 export async function computeCalculation(

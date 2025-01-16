@@ -5,6 +5,8 @@
   "type": "module",
   "exports": {
     "./services/*": "./src/services/*.ts",
+    "./schemas/*": "./src/schemas/*.ts",
+    "./queues/*": "./src/queues/*.ts",
     "./jobs/*": "./src/jobs/*.ts",
     "./constants": "./src/constants.ts"
   },

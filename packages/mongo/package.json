@@ -4,13 +4,15 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./connection": "./src/connection.ts"
+    "./connection": "./src/connection.ts",
+    "./document": "./src/document.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
+    "mongodb": "6.12.0",
     "mongoose": "8.9.5"
   },
   "devDependencies": {
