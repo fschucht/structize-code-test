@@ -5,7 +5,7 @@
   "type": "module",
   "exports": {
     "./services/*": "./src/services/*.ts",
-    "./schemas/*": "./src/schemas/*.ts",
+    "./documents/*": "./src/documents/*.ts",
     "./queues/*": "./src/queues/*.ts",
     "./jobs/*": "./src/jobs/*.ts",
     "./constants": "./src/constants.ts"

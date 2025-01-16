@@ -15,7 +15,7 @@ import { Calculation } from "@/components/calculation";
 import {
   CALCULATION_OPERATION,
   type CalculationOperation,
-} from "@repo/calculations/schemas/calculation";
+} from "@repo/calculations/documents/calculation";
 
 export default function Home() {
   const [isComputing, setIsComputing] = useState(false);

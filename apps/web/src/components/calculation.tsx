@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import { cn } from "@repo/ui/lib/utils";
-import type { CalculationOperation } from "@repo/calculations/schemas/calculation";
+import type { CalculationOperation } from "@repo/calculations/documents/calculation";
 import { trpc } from "@/trpc/client";
 import { skipToken } from "@tanstack/react-query";
 

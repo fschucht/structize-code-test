@@ -3,7 +3,7 @@ import type { ObjectId } from "mongodb";
 import {
   CALCULATION_OPERATION,
   type CalculationDocument,
-} from "../schemas/calculation.ts";
+} from "../documents/calculation.ts";
 import { calculationsQueue } from "../queues/calculations.ts";
 import { calculationModel } from "../models/calculation.ts";
 import { setTimeout } from "node:timers/promises";
