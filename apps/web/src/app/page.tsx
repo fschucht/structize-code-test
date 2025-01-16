@@ -4,6 +4,7 @@ import {
   type ChangeEventHandler,
   type FormEventHandler,
   useCallback,
+  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -12,8 +13,11 @@ import { Input } from "@repo/ui/components/input";
 import { Progress } from "@repo/ui/components/progress";
 import { Calculation } from "@/components/calculation";
 import { trpc } from "@/trpc/client";
+import { skipToken } from "@tanstack/react-query";
 
 export default function Home() {
+  const [isComputing, setIsComputing] = useState(false);
+
   const [numberA, setNumberA] = useState<number>();
   const [hasNumberABeenChanged, setHasNumberABeenChanged] = useState(false);
   const isNumberAValid = useMemo(() => {
@@ -26,13 +30,56 @@ export default function Home() {
     return !hasNumberBBeenChanged || typeof numberB === "number";
   }, [hasNumberBBeenChanged, numberB]);
 
-  const { mutate: createAddCalculation } = trpc.createCalculation.useMutation();
-  const { mutate: createSubtractCalculation } =
-    trpc.createCalculation.useMutation();
-  const { mutate: createMultiplyCalculation } =
-    trpc.createCalculation.useMutation();
-  const { mutate: createDivideCalculation } =
-    trpc.createCalculation.useMutation();
+  const addCalculation = trpc.createCalculation.useSubscription(
+    isComputing && typeof numberA === "number" && typeof numberB === "number"
+      ? {
+          operation: "add",
+          numberA: numberA,
+          numberB: numberB,
+        }
+      : skipToken,
+  );
+  const subtractCalculation = trpc.createCalculation.useSubscription(
+    isComputing && typeof numberA === "number" && typeof numberB === "number"
+      ? {
+          operation: "subtract",
+          numberA: numberA,
+          numberB: numberB,
+        }
+      : skipToken,
+  );
+  const multiplyCalculation = trpc.createCalculation.useSubscription(
+    isComputing && typeof numberA === "number" && typeof numberB === "number"
+      ? {
+          operation: "multiply",
+          numberA: numberA,
+          numberB: numberB,
+        }
+      : skipToken,
+  );
+  const divideCalculation = trpc.createCalculation.useSubscription(
+    isComputing && typeof numberA === "number" && typeof numberB === "number"
+      ? {
+          operation: "divide",
+          numberA: numberA,
+          numberB: numberB,
+        }
+      : skipToken,
+  );
+
+  const completedCalculationsCount = useMemo(() => {
+    return [
+      addCalculation,
+      subtractCalculation,
+      multiplyCalculation,
+      divideCalculation,
+    ].filter((progress) => progress.data?.result !== undefined).length;
+  }, [
+    addCalculation,
+    subtractCalculation,
+    multiplyCalculation,
+    divideCalculation,
+  ]);
 
   const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>(
     (event) => {
@@ -45,35 +92,9 @@ export default function Home() {
         return;
       }
 
-      createAddCalculation({
-        operation: "add",
-        numberA: numberA,
-        numberB: numberB,
-      });
-      createSubtractCalculation({
-        operation: "subtract",
-        numberA: numberA,
-        numberB: numberB,
-      });
-      createMultiplyCalculation({
-        operation: "multiply",
-        numberA: numberA,
-        numberB: numberB,
-      });
-      createDivideCalculation({
-        operation: "divide",
-        numberA: numberA,
-        numberB: numberB,
-      });
+      setIsComputing(true);
     },
-    [
-      numberA,
-      numberB,
-      createAddCalculation,
-      createSubtractCalculation,
-      createMultiplyCalculation,
-      createDivideCalculation,
-    ],
+    [numberA, numberB, setIsComputing],
   );
 
   const handleChangeNumberA = useCallback<ChangeEventHandler<HTMLInputElement>>(
@@ -96,6 +117,12 @@ export default function Home() {
     [setNumberB, setHasNumberBBeenChanged],
   );
 
+  useEffect(() => {
+    if (isComputing && completedCalculationsCount === 4) {
+      setIsComputing(false);
+    }
+  }, [isComputing, setIsComputing, completedCalculationsCount]);
+
   return (
     <div className="flex flex-col justify-center items-center w-full min-h-[100vh]">
       <main className="flex flex-col items-center">
@@ -114,18 +141,38 @@ export default function Home() {
             value={numberB?.toString() || ""}
             errorMessage={isNumberBValid ? undefined : "Must be a number"}
           />
-          <Button type="submit">Compute</Button>
+          <Button type="submit" disabled={isComputing}>
+            Compute
+          </Button>
         </form>
-        <div className="flex flex-col items-center min-w-[400px] mt-10">
-          <p className="text-center">Computing... 2 out of 4 jobs finished</p>
-          <Progress className="mt-2" value={50} />
-        </div>
-        <div className="flex flex-col min-w-[300px] mt-10 gap-4">
-          <Calculation operator="+" />
-          <Calculation operator="-" />
-          <Calculation operator="*" />
-          <Calculation operator="/" />
-        </div>
+        {(isComputing || completedCalculationsCount > 0) && (
+          <>
+            <div className="flex flex-col items-center min-w-[400px] mt-10">
+              <p className="text-center">
+                Computing... {completedCalculationsCount} out of 4 jobs finished
+              </p>
+              <Progress
+                className="mt-2"
+                value={(completedCalculationsCount / 4) * 100}
+              />
+            </div>
+            <div className="flex flex-col min-w-[300px] mt-10 gap-4">
+              <Calculation operator="+" result={addCalculation?.data?.result} />
+              <Calculation
+                operator="-"
+                result={subtractCalculation?.data?.result}
+              />
+              <Calculation
+                operator="*"
+                result={multiplyCalculation?.data?.result}
+              />
+              <Calculation
+                operator="/"
+                result={divideCalculation?.data?.result}
+              />
+            </div>
+          </>
+        )}
       </main>
     </div>
   );

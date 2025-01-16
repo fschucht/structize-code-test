@@ -1,1 +1,3 @@
-export type ComputeCalculationJob = { calculationId: string };
+export interface ComputeCalculationJob {
+  calculationId: string;
+}

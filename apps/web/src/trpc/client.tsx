@@ -2,7 +2,12 @@
 
 import type { QueryClient } from "@tanstack/react-query";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { httpBatchLink } from "@trpc/client";
+import {
+  httpBatchLink,
+  loggerLink,
+  splitLink,
+  unstable_httpSubscriptionLink,
+} from "@trpc/client";
 import { createTRPCReact } from "@trpc/react-query";
 import { useState } from "react";
 import { makeQueryClient } from "./queryClient";
@@ -40,8 +45,15 @@ export function TRPCProvider(
   const [trpcClient] = useState(() =>
     trpc.createClient({
       links: [
-        httpBatchLink({
-          url: config.TRPC_ENDPOINT_URL,
+        loggerLink(),
+        splitLink({
+          condition: (operation) => operation.type === "subscription",
+          true: unstable_httpSubscriptionLink({
+            url: config.TRPC_ENDPOINT_URL,
+          }),
+          false: httpBatchLink({
+            url: config.TRPC_ENDPOINT_URL,
+          }),
         }),
       ],
     }),
