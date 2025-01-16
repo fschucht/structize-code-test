@@ -35,8 +35,6 @@ const Calculation = forwardRef<HTMLInputElement, CalculationProps>(
       },
     );
 
-    console.log(operation, calculation.data);
-
     return (
       <div
         ref={ref}
