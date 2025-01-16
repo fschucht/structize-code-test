@@ -6,6 +6,7 @@ import {
 } from "../schemas/calculation.ts";
 import { calculationsQueue } from "../queues/calculations.ts";
 import { calculationModel } from "../models/calculation.ts";
+import { setTimeout } from "node:timers/promises";
 
 export const createCalculationParamsSchema = z.object({
   operation: z.enum(CALCULATION_OPERATION),
@@ -49,6 +50,8 @@ export async function computeCalculation(
   if (!calculation) {
     throw new Error("Calculation not found");
   }
+
+  await setTimeout(3_000);
 
   let result: number;
 
