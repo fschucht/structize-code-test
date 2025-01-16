@@ -121,7 +121,10 @@ export default function Home() {
             disabled={isComputing}
             errorMessage={isNumberBValid ? undefined : "Must be a valid number"}
           />
-          <Button type="submit" disabled={isComputing}>
+          <Button
+            type="submit"
+            disabled={!isNumberAValid || !isNumberBValid || isComputing}
+          >
             Compute
           </Button>
         </form>
