@@ -1,5 +1,7 @@
 # Structize Code Test
 
+https://github.com/user-attachments/assets/c37dcba0-6dc7-4ea6-9252-949646fe1b9a
+
 ## Project Setup
 
 The repository is structured into apps and packages following a monorepo approach with a domain-driven design.
