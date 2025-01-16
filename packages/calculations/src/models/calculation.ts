@@ -1,5 +1,5 @@
 import { Schema, type Model } from "mongoose";
-import { mongooseConnection } from "@repo/mongo/connection";
+import { mongooseConnection } from "@repo/mongo/connection.ts";
 import {
   CALCULATION_OPERATION,
   type CalculationDocument,

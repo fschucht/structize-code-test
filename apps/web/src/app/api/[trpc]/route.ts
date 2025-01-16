@@ -1,5 +1,5 @@
-import { apiRouter } from "@/trpc/router";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
+import { apiRouter } from "@/trpc/router";
 
 async function handler(req: Request) {
   return fetchRequestHandler({

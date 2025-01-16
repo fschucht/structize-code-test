@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./connection": "./src/connection.ts"
+    "./connection.ts": "./src/connection.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",

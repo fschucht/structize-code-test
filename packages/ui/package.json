@@ -5,10 +5,10 @@
   "type": "module",
   "exports": {
     "./globals.css": "./src/styles/globals.css",
-    "./postcss.config": "./postcss.config.mjs",
-    "./tailwind.config": "./tailwind.config.ts",
-    "./components/*": "./src/components/*.tsx",
-    "./lib/*": "./src/lib/*.ts"
+    "./postcss.config.mjs": "./postcss.config.mjs",
+    "./tailwind.config.ts": "./tailwind.config.ts",
+    "./components/*.tsx": "./src/components/*.tsx",
+    "./lib/*.ts": "./src/lib/*.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",

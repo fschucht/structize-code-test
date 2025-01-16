@@ -1,4 +1,4 @@
-import type { DocumentWithTimestamps } from "@repo/mongo/document";
+import type { DocumentWithTimestamps } from "@repo/mongo/document.ts";
 
 export const CALCULATION_OPERATION = [
   "add",

@@ -8,14 +8,14 @@ import {
   useMemo,
   useState,
 } from "react";
-import { Button } from "@repo/ui/components/button";
-import { Input } from "@repo/ui/components/input";
-import { Progress } from "@repo/ui/components/progress";
-import { Calculation } from "@/components/calculation";
+import { Button } from "@repo/ui/components/button.tsx";
+import { Input } from "@repo/ui/components/input.tsx";
+import { Progress } from "@repo/ui/components/progress.tsx";
 import {
   CALCULATION_OPERATION,
   type CalculationOperation,
-} from "@repo/calculations/documents/calculation";
+} from "@repo/calculations/documents/calculation.ts";
+import { Calculation } from "@/components/calculation";
 
 export default function Home() {
   const [isComputing, setIsComputing] = useState(false);

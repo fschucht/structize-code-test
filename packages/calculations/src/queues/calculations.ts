@@ -1,6 +1,6 @@
 import { Job, Queue, QueueEvents } from "bullmq";
+import { redisConnection } from "@repo/redis/connection.ts";
 import { CALCULATIONS_QUEUE_NAME } from "../constants.ts";
-import { redisConnection } from "@repo/redis/connection";
 import type { ComputeCalculationJob } from "../jobs/computeCalculationJob.ts";
 
 export const calculationsQueue = new Queue<ComputeCalculationJob>(

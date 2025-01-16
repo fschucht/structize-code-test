@@ -1,9 +1,9 @@
 import { Worker } from "bullmq";
 import { ObjectId } from "mongodb";
-import { CALCULATIONS_QUEUE_NAME } from "@repo/calculations/constants";
-import { redisConnection } from "@repo/redis/connection";
-import type { ComputeCalculationJob } from "@repo/calculations/jobs/computeCalculationJob";
-import { computeCalculation } from "@repo/calculations/services/calculations";
+import { CALCULATIONS_QUEUE_NAME } from "@repo/calculations/constants.ts";
+import { redisConnection } from "@repo/redis/connection.ts";
+import type { ComputeCalculationJob } from "@repo/calculations/jobs/computeCalculationJob.ts";
+import { computeCalculation } from "@repo/calculations/services/calculations.ts";
 import { logger } from "@repo/logger/logger.ts";
 
 const worker = new Worker<ComputeCalculationJob>(

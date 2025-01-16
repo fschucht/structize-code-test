@@ -1,15 +1,15 @@
+import { on } from "node:events";
+import { ObjectId } from "mongodb";
 import { initTRPC } from "@trpc/server";
 import {
   createCalculation,
   createCalculationParamsSchema,
   findCalculationById,
-} from "@repo/calculations/services/calculations";
-import { on } from "node:events";
-import { ObjectId } from "mongodb";
+} from "@repo/calculations/services/calculations.ts";
 import {
   calculationsQueueEvents,
   getCalculationsJobById,
-} from "@repo/calculations/queues/calculations";
+} from "@repo/calculations/queues/calculations.ts";
 
 const trpc = initTRPC.create();
 

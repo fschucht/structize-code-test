@@ -10,10 +10,10 @@ import {
 } from "@trpc/client";
 import { createTRPCReact } from "@trpc/react-query";
 import { useState } from "react";
-import { makeQueryClient } from "./queryClient";
-import type { ApiRouter } from "./router";
 import { z } from "zod";
-import { isServer } from "@repo/ui/lib/utils";
+import { isServer } from "@repo/ui/lib/utils.ts";
+import { makeQueryClient } from "./queryClient.ts";
+import type { ApiRouter } from "./router.ts";
 
 const configSchema = z.object({
   TRPC_ENDPOINT_URL: z.coerce

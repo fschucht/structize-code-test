@@ -1,8 +1,8 @@
 import { forwardRef } from "react";
-import { cn } from "@repo/ui/lib/utils";
-import type { CalculationOperation } from "@repo/calculations/documents/calculation";
-import { trpc } from "@/trpc/client";
 import { skipToken } from "@tanstack/react-query";
+import { cn } from "@repo/ui/lib/utils.ts";
+import type { CalculationOperation } from "@repo/calculations/documents/calculation.ts";
+import { trpc } from "@/trpc/client";
 
 export interface CalculationProps {
   className?: string;
