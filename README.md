@@ -26,6 +26,7 @@ The code uses the following technologies:
 - `Next.js` and `react` for the `web` app.
 - `Node.js` for the `worker` app.
 - `Shadcn` for generating shared UI components.
+- `Tailwind` to style the UI.
 - `TRPC` for serving a type-safe API and using it in react using hooks.
 - `Zod` for verifying API inputs in `trpc`, as well as for parsing and verifying environment variables.
 - `Server-sent events` for initiating the computation of the calculation and updating the frontend about its status.
@@ -44,13 +45,14 @@ The project uses the following technologies for the development:
 ### Next Steps
 
 The following next steps could be taken:
-- Split the `web` app into separate `api` and `web` apps to ensure they can be scaled independently based on resource usage and demand.
 - Add unit and integration tests for the codebase using `jest`. I originally planned to do this, however abandoned this due to time constraints.  
   - UI components should be tested using snapshot tests. 
   - The `calculations` service should be tested using unit tests and a mocked db connection.
   - The trpc API should be tested using either unit or integration tests for both the API and client parts.
 - Add more robust error handling. Currently, expected errors, like zero division of the calculation, are handled in the UI and zod schemas. However, API & connection errors are currently unhandled.
-- Deployment of the apps to a hosting service, like AWS ECS & Fargate.
+- Deployment of the apps to a hosting service, like AWS ECS & Fargate, using Terraform or Pulumi.
+- Implementing a CI pipeline that automates the deployment process.
+- Split the `web` app into separate `api` and `web` apps to ensure they can be scaled independently based on resource usage and demand.
 
 ## Getting Started
 
@@ -64,14 +66,14 @@ The following tools are required to run the project:
 ### Development
 
 1. Run `mise install`, followed by `mise reshim` to ensure you have the required version of `node`, `pnpm`, and `lefthook` installed. 
-2. Ensure you have mongo and redis running: `docker-compose up mongo redis`.
-3. Ensure, you have the local environment setup: `cp ./apps/web/.env.default apps/web/.env && cp ./apps/worker/.env.default apps/worker/.env`
-4. By default, the application uses sensible default values for environment. The values can be overwritten, by updating the values in the `.env` file of the app.
+2. Ensure you have mongo and redis running: `docker-compose up mongo redis -d`.
+3. Ensure, you have the local environment setup: `cp ./apps/web/.env.default ./apps/web/.env && cp ./apps/worker/.env.default ./apps/worker/.env`
+4. By default, the application uses sensible default values for the environment. The values can be overwritten, by updating the values in the `.env` file of the app.
 5. Run `pnpm run dev` to start the `web` and `worker` applications.
 
 ### Production
 
-1. Ensure you have mongo and redis running: `docker-compose up mongo redis`.
+1. Ensure you have mongo and redis running: `docker-compose up mongo redis -d`.
 2. Once mongo and redis are running, start the apps: `docker-compose up web worker`
 
 **IMPORTANT**: Since Next.js requires access to mongo and redis during the build process, these have to be started before starting the apps. Otherwise, the docker build will fail.
@@ -114,12 +116,4 @@ manage it through AWS Fargate.
 - [ ] Implement an oauth login with Microsoft Entra ID (We use next auth).
 - [x] Use MongoDB as a database (we use MongoDB Atlas).
 - [ ] Write unit tests for both the front-end and back-end.
-Evaluation Criteria:
-- [x] Functionality: The application should work as described without bugs.
-- [x] Code Quality: Code should be clean, well-organized, and follow best practices.
-- [x] Database Integration: Proper use of the database and effective schema design.
-- [x] UI Design: Clean and user-friendly interface.
-- [ ] Error handling: Make sure to handle potential errors gracefully.
-- [ ] Security Practices: Implementation of basic security measures, like secure handling of
-connections and sensitive data.
-- [x] Documentation: Clarity and completeness of documentation.
+
