@@ -71,11 +71,13 @@ The following tools are required to run the project:
 3. Ensure, you have the local environment setup: `cp ./apps/web/.env.local.example ./apps/web/.env && cp ./apps/worker/.env.local.example ./apps/worker/.env`
 4. By default, the application uses sensible default values for the environment. The values can be overwritten, by updating the values in the `.env` file of the app.
 5. Run `pnpm run dev` to start the `web` and `worker` applications.
+6. Access the page at [http://localhost:3000](http://localhost:3000).
 
 ### Production
 
 1. Ensure you have mongo and redis running: `docker-compose up mongo redis -d`.
-2. Once mongo and redis are running, start the apps: `docker-compose up web worker`
+2. Once mongo and redis are running, start the apps: `docker-compose up web worker`.
+3. Access the page at [http://localhost:3000](http://localhost:3000).
 
 **IMPORTANT**: Since Next.js requires access to mongo and redis during the build process, these have to be started before starting the apps. Otherwise, the docker build will fail.
 
