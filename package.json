@@ -7,9 +7,9 @@
   },
   "packageManager": "pnpm@10.0.0",
   "scripts": {
-    "prepare": "lefthook install",
     "build": "turbo build",
     "dev": "turbo dev",
+    "prod": "turbo prod",
     "lint": "turbo lint",
     "check-types": "turbo check-types"
   },

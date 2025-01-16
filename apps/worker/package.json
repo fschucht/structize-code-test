@@ -4,7 +4,8 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "node --watch main.ts",
+    "dev": "node --env-file .env --watch main.ts",
+    "prod": "node --env-file .env main.ts",
     "lint": "eslint . --max-warnings 0",
     "check-types": "tsc --noEmit"
   },

@@ -14,6 +14,7 @@ services:
       - web-network
 
   redis:
+    container_name: redis
     image: redis:7.4.2
     restart: always
     ports:
@@ -21,6 +22,41 @@ services:
     command: redis-server --save 60 1
     volumes: 
       - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/redis:/data
+    networks:
+      - web-network
+
+  web:
+    container_name: web
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: next
+      network: host
+      args:
+        - APP_NAME=web
+    restart: always
+    ports:
+      - 3000:3000
+    networks:
+      - web-network
+    depends_on:
+      - mongo
+      - redis
+
+  worker:
+    container_name: worker
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: worker
+      args:
+        - APP_NAME=worker
+    restart: always
+    networks:
+      - web-network
+    depends_on:
+      - mongo
+      - redis
 
 networks:
   web-network:

@@ -4,6 +4,7 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
+      "env": ["MONGODB_URI", "REDIS_HOST", "REDIS_PORT"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**"]
     },
@@ -14,6 +15,11 @@
       "dependsOn": ["^check-types"]
     },
     "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "prod": {
+      "dependsOn": ["^prod"],
       "cache": false,
       "persistent": true
     }

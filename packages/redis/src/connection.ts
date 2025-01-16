@@ -5,4 +5,5 @@ export const redisConnection = new Redis({
   host: config.REDIS_HOST,
   port: config.REDIS_PORT,
   maxRetriesPerRequest: null,
+  lazyConnect: true,
 });
