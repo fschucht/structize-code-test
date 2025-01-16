@@ -12,12 +12,12 @@ FROM base AS next
 ARG APP_NAME
 ENV APP_NAME="$APP_NAME"
 RUN pnpm run build --filter="$APP_NAME"
-RUN cp ./apps/$APP_NAME/.env.example ./apps/$APP_NAME/.env
+RUN cp ./apps/$APP_NAME/.env.docker.example ./apps/$APP_NAME/.env
 EXPOSE 3000
 CMD pnpm run prod --filter="$APP_NAME"
 
 FROM base AS worker
 ARG APP_NAME
 ENV APP_NAME="$APP_NAME"
-RUN cp ./apps/$APP_NAME/.env.example ./apps/$APP_NAME/.env
+RUN cp ./apps/$APP_NAME/.env.docker.example ./apps/$APP_NAME/.env
 CMD pnpm run prod --filter="$APP_NAME"

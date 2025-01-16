@@ -8,15 +8,15 @@ The repository is structured into apps and packages following a monorepo approac
 
 ### Apps
 
-- `web`: A Next.js app serving the frontend and api. For now, the api is contained as part of the application. In the future, it would make sense to split it into a separate application, so that the frontend and backend can be scaled independently based on demand. The application contains both the pages of frontend, as well as app-specific components which are not shareable between apps. In the future, it could be considered to keep these in different UI packages, separated from the shared UI package.
-- `worker`: A Node.js application that listens to a queue in redis and processes events. For demonstration purposes, the concurrency is currently set to 2 jobs at a time. In a production environment, this value can be increased based on the available resources.
+- `web`: A Next.js app serving the frontend and api. For now, the api is contained as part of the application.
+- `worker`: A Node.js application that listens to a queue in redis and processes events. For demonstration purposes, the concurrency is currently set to 2 jobs at a time.
 
 ### Packages
 
 - `eslint-config`: A package containing the base eslint configurations.
 - `typescript-config`: A package containing the base typescript configurations.
-- `ui`: A React component library containing shared UI components created with shadcn.
-- `mongo`: A package containing a reusable, singleton mongo connection. In addition, the package contains shared mongo utilities and types.
+- `ui`: A react component library containing shared UI components created with shadcn.
+- `mongo`: A package containing a reusable, singleton mongo connection.
 - `redis`: A package containing a reusable, singleton redis connection.
 - `calculations`: A package containing all code related to the calculations domain.
 
@@ -28,10 +28,10 @@ The code uses the following technologies:
 - `Shadcn` for generating shared UI components.
 - `Tailwind` to style the UI.
 - `TRPC` for serving a type-safe API and using it in react using hooks.
-- `Zod` for verifying API inputs in `trpc`, as well as for parsing and verifying environment variables.
+- `Zod` for verifying API inputs in `trpc` and for parsing and validating environment variables.
 - `Server-sent events` for initiating the computation of the calculation and updating the frontend about its status.
 - `Mongodb` and `mongoose` for storing calculations and defining data structures.
-- `Redis` & `bullmq` for sending and handling jobs. Originally, I considered building a queue on top of mongo using changestreams. However, I decided that this would exceed the scope of the code test and to use an existing solution instead.
+- `Redis` & `bullmq` for sending and handling jobs through a queue. Originally, I considered building a queue on top of mongo using changestreams. However, I decided that this would exceed the scope of the code test and to use an existing solution instead.
 - `Pino` for logging.
 
 The project uses the following technologies for the development:
@@ -53,6 +53,7 @@ The following next steps could be taken:
 - Deployment of the apps to a hosting service, like AWS ECS & Fargate, using Terraform or Pulumi.
 - Implementing a CI pipeline that automates the deployment process.
 - Split the `web` app into separate `api` and `web` apps to ensure they can be scaled independently based on resource usage and demand.
+- Move components (and possibly pages) from the `web` app into a new `calculationsUi` package.
 
 ## Getting Started
 
@@ -67,7 +68,7 @@ The following tools are required to run the project:
 
 1. Run `mise install`, followed by `mise reshim` to ensure you have the required version of `node`, `pnpm`, and `lefthook` installed. 
 2. Ensure you have mongo and redis running: `docker-compose up mongo redis -d`.
-3. Ensure, you have the local environment setup: `cp ./apps/web/.env.default ./apps/web/.env && cp ./apps/worker/.env.default ./apps/worker/.env`
+3. Ensure, you have the local environment setup: `cp ./apps/web/.env.local.example ./apps/web/.env && cp ./apps/worker/.env.local.example ./apps/worker/.env`
 4. By default, the application uses sensible default values for the environment. The values can be overwritten, by updating the values in the `.env` file of the app.
 5. Run `pnpm run dev` to start the `web` and `worker` applications.
 

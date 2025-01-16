@@ -18,8 +18,7 @@ const worker = new Worker<ComputeCalculationJob>(
   },
   {
     connection: redisConnection,
-    // For demonstration purposes, the concurrency is set to 2 here.
-    concurrency: 2,
+    concurrency: 2, // This value is set to 2 for demonstration purposes.
     autorun: false,
   },
 );
