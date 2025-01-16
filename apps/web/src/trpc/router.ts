@@ -33,7 +33,6 @@ export const apiRouter = trpc.router({
             );
 
             yield updatedCalculation;
-            return;
           }
         }
       }
