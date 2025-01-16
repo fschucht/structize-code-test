@@ -1,14 +1,42 @@
-import * as React from "react";
+import { forwardRef } from "react";
 import { cn } from "@repo/ui/lib/utils";
+import type { CalculationOperation } from "@repo/calculations/schemas/calculation";
+import { trpc } from "@/trpc/client";
+import { skipToken } from "@tanstack/react-query";
 
 export interface CalculationProps {
   className?: string;
-  operator: "+" | "-" | "*" | "/";
+  operation: CalculationOperation;
+  numberA?: number;
+  numberB?: number;
   result?: number;
+  onResult?: (operation: CalculationOperation, result: number) => void;
 }
 
-const Calculation = React.forwardRef<HTMLInputElement, CalculationProps>(
-  ({ className, operator, result }, ref) => {
+const SYMBOL_BY_OPERATION: Record<CalculationOperation, string> = {
+  add: "+",
+  subtract: "-",
+  multiply: "*",
+  divide: "/",
+};
+
+const Calculation = forwardRef<HTMLInputElement, CalculationProps>(
+  ({ className, operation, numberA, numberB, onResult }, ref) => {
+    const calculation = trpc.createCalculation.useSubscription(
+      typeof numberA === "number" && typeof numberB === "number"
+        ? { operation, numberA, numberB }
+        : skipToken,
+      {
+        onData: (data) => {
+          if (onResult && typeof data?.result === "number") {
+            onResult(operation, data.result);
+          }
+        },
+      },
+    );
+
+    console.log(operation, calculation.data);
+
     return (
       <div
         ref={ref}
@@ -16,11 +44,15 @@ const Calculation = React.forwardRef<HTMLInputElement, CalculationProps>(
       >
         <div className="flex flex-row items-center justify-between shrink-0 w-[35px]">
           <div>A</div>
-          <div>{operator}</div>
+          <div>{SYMBOL_BY_OPERATION[operation]}</div>
           <div>B</div>
         </div>
         <div>=</div>
-        <div>{result || "Computing..."}</div>
+        <div>
+          {typeof calculation.data?.result === "number"
+            ? calculation.data.result
+            : "Computing..."}
+        </div>
       </div>
     );
   },

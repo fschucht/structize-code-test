@@ -12,11 +12,16 @@ import { Button } from "@repo/ui/components/button";
 import { Input } from "@repo/ui/components/input";
 import { Progress } from "@repo/ui/components/progress";
 import { Calculation } from "@/components/calculation";
-import { trpc } from "@/trpc/client";
-import { skipToken } from "@tanstack/react-query";
+import {
+  CALCULATION_OPERATION,
+  type CalculationOperation,
+} from "@repo/calculations/schemas/calculation";
 
 export default function Home() {
   const [isComputing, setIsComputing] = useState(false);
+  const [completedCalculations, setCompletedCalculations] = useState<
+    Partial<Record<CalculationOperation, number>>
+  >({});
 
   const [numberA, setNumberA] = useState<number>();
   const [hasNumberABeenChanged, setHasNumberABeenChanged] = useState(false);
@@ -27,59 +32,10 @@ export default function Home() {
   const [numberB, setNumberB] = useState<number>();
   const [hasNumberBBeenChanged, setHasNumberBBeenChanged] = useState(false);
   const isNumberBValid = useMemo(() => {
-    return !hasNumberBBeenChanged || typeof numberB === "number";
+    return (
+      !hasNumberBBeenChanged || (typeof numberB === "number" && numberB !== 0)
+    );
   }, [hasNumberBBeenChanged, numberB]);
-
-  const addCalculation = trpc.createCalculation.useSubscription(
-    isComputing && typeof numberA === "number" && typeof numberB === "number"
-      ? {
-          operation: "add",
-          numberA: numberA,
-          numberB: numberB,
-        }
-      : skipToken,
-  );
-  const subtractCalculation = trpc.createCalculation.useSubscription(
-    isComputing && typeof numberA === "number" && typeof numberB === "number"
-      ? {
-          operation: "subtract",
-          numberA: numberA,
-          numberB: numberB,
-        }
-      : skipToken,
-  );
-  const multiplyCalculation = trpc.createCalculation.useSubscription(
-    isComputing && typeof numberA === "number" && typeof numberB === "number"
-      ? {
-          operation: "multiply",
-          numberA: numberA,
-          numberB: numberB,
-        }
-      : skipToken,
-  );
-  const divideCalculation = trpc.createCalculation.useSubscription(
-    isComputing && typeof numberA === "number" && typeof numberB === "number"
-      ? {
-          operation: "divide",
-          numberA: numberA,
-          numberB: numberB,
-        }
-      : skipToken,
-  );
-
-  const completedCalculationsCount = useMemo(() => {
-    return [
-      addCalculation,
-      subtractCalculation,
-      multiplyCalculation,
-      divideCalculation,
-    ].filter((progress) => progress.data?.result !== undefined).length;
-  }, [
-    addCalculation,
-    subtractCalculation,
-    multiplyCalculation,
-    divideCalculation,
-  ]);
 
   const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>(
     (event) => {
@@ -92,9 +48,10 @@ export default function Home() {
         return;
       }
 
+      setCompletedCalculations({});
       setIsComputing(true);
     },
-    [numberA, numberB, setIsComputing],
+    [numberA, numberB, setCompletedCalculations, setIsComputing],
   );
 
   const handleChangeNumberA = useCallback<ChangeEventHandler<HTMLInputElement>>(
@@ -117,8 +74,29 @@ export default function Home() {
     [setNumberB, setHasNumberBBeenChanged],
   );
 
+  const handleCalculationResult = useCallback(
+    (operation: CalculationOperation, result: number) => {
+      setCompletedCalculations({
+        ...completedCalculations,
+        [operation]: result,
+      });
+    },
+    [setCompletedCalculations, completedCalculations],
+  );
+
+  const completedCalculationsCount = useMemo(
+    () =>
+      Object.values(completedCalculations).filter(
+        (result) => typeof result === "number",
+      ).length,
+    [completedCalculations],
+  );
+
   useEffect(() => {
-    if (isComputing && completedCalculationsCount === 4) {
+    if (
+      isComputing &&
+      completedCalculationsCount === CALCULATION_OPERATION.length
+    ) {
       setIsComputing(false);
     }
   }, [isComputing, setIsComputing, completedCalculationsCount]);
@@ -132,14 +110,16 @@ export default function Home() {
             placeholder="Enter number A"
             onChange={handleChangeNumberA}
             value={numberA?.toString() || ""}
-            errorMessage={isNumberAValid ? undefined : "Must be a number"}
+            disabled={isComputing}
+            errorMessage={isNumberAValid ? undefined : "Must be a valid number"}
           />
           <Input
             type="number"
             placeholder="Enter number B"
             onChange={handleChangeNumberB}
             value={numberB?.toString() || ""}
-            errorMessage={isNumberBValid ? undefined : "Must be a number"}
+            disabled={isComputing}
+            errorMessage={isNumberBValid ? undefined : "Must be a valid number"}
           />
           <Button type="submit" disabled={isComputing}>
             Compute
@@ -149,27 +129,27 @@ export default function Home() {
           <>
             <div className="flex flex-col items-center min-w-[400px] mt-10">
               <p className="text-center">
-                Computing... {completedCalculationsCount} out of 4 jobs finished
+                Computing... {completedCalculationsCount} out of{" "}
+                {CALCULATION_OPERATION.length} jobs finished
               </p>
               <Progress
                 className="mt-2"
-                value={(completedCalculationsCount / 4) * 100}
+                value={
+                  (completedCalculationsCount / CALCULATION_OPERATION.length) *
+                  100
+                }
               />
             </div>
             <div className="flex flex-col min-w-[300px] mt-10 gap-4">
-              <Calculation operator="+" result={addCalculation?.data?.result} />
-              <Calculation
-                operator="-"
-                result={subtractCalculation?.data?.result}
-              />
-              <Calculation
-                operator="*"
-                result={multiplyCalculation?.data?.result}
-              />
-              <Calculation
-                operator="/"
-                result={divideCalculation?.data?.result}
-              />
+              {CALCULATION_OPERATION.map((operation) => (
+                <Calculation
+                  key={operation}
+                  operation={operation}
+                  numberA={isComputing ? numberA : undefined}
+                  numberB={isComputing ? numberB : undefined}
+                  onResult={handleCalculationResult}
+                />
+              ))}
             </div>
           </>
         )}

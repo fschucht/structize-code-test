@@ -7,9 +7,10 @@ export const CALCULATION_OPERATION = [
   "multiply",
   "divide",
 ] as const;
+export type CalculationOperation = "add" | "subtract" | "multiply" | "divide";
 
 export interface CalculationDocument extends DocumentWithTimestamps {
-  operation: "add" | "subtract" | "multiply" | "divide";
+  operation: CalculationOperation;
   numberA: number;
   numberB: number;
   result?: number;

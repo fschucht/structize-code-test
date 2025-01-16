@@ -11,7 +11,9 @@ import { setTimeout } from "node:timers/promises";
 export const createCalculationParamsSchema = z.object({
   operation: z.enum(CALCULATION_OPERATION),
   numberA: z.number(),
-  numberB: z.number(),
+  numberB: z
+    .number()
+    .refine((numberB) => numberB !== 0, "numberB cannot equal 0"),
 });
 
 export type CreateCalculationParams = z.infer<
